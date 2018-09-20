@@ -20,6 +20,10 @@ namespace JLFinancialApp.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Income> Incomes { get; set; }
+        public DbSet<Subscription> Subscriptions { get; set; }
+        public DbSet<PeriodType> PeriodTypes { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
