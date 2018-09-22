@@ -87,5 +87,22 @@ namespace JLFinancialApp.Controllers.Api
 
             return Ok();
         }
+
+        [HttpDelete]
+        [Authorize]
+        public IHttpActionResult DeleteIncome(int id)
+        {
+            var incomeInDb = _context.Incomes.SingleOrDefault(i => i.Id == id);
+
+            if (incomeInDb == null)
+            {
+                return NotFound();
+            }
+
+            _context.Incomes.Remove(incomeInDb);
+            _context.SaveChanges();
+
+            return Ok();
+        }
     }
 }

@@ -25,16 +25,44 @@
             <th scope="col">
                 Amount
             </th>
+            <th>
+                Delete
+            </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var income in Model)
         {
-            <tr>
+            <tr id="row-@income.Id">
                 <td>@Html.ActionLink(income.Name, "Edit", "Income", new { id = income.Id }, null)</td>
                 <td>@income.PeriodType.Name</td>
                 <td>£@income.Amount</td>
+                <td>
+                    <button class="btn-dark delete-row" data-id="@income.Id">
+                        Delete
+                    </button>
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+@section scripts 
+{
+    <script>
+        // REFACTOR: Place in seperate scripts file
+        $(document).ready(function () {            
+            $("#incomes").on("click", ".delete-row", function () {    
+                var id = $(this).data("id");
+
+                $.ajax({
+                    url: "/api/income/" + id,
+                    method: "delete",
+                    success: function () {
+                        $("#row-" + id).remove();
+                    }
+                });
+            })
+        });
+    </script>    
+}

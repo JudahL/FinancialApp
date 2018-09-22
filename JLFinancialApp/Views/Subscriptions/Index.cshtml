@@ -8,7 +8,7 @@
 
 <hr />
 
-@Html.ActionLink("Add New Subscription", "New", "Subscriptions", null, new { @class="btn btn-primary btn-lg" })
+@Html.ActionLink("Add New Subscription", "New", "Subscriptions", null, new { @class = "btn btn-primary btn-lg" })
 
 <hr />
 
@@ -24,18 +24,45 @@
             <th scope="col">
                 Amount
             </th>
+            <th>
+                Delete
+            </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var subscription in Model)
         {
-        <tr>
-            <td>@Html.ActionLink(subscription.Name, "Edit", "Subscriptions", new { id = subscription.Id }, null)</td>
-            <td>@subscription.PeriodType.Name</td>
-            <td>£@subscription.Amount</td>
-        </tr>
+            <tr id="row-@subscription.Id">
+                <td>@Html.ActionLink(subscription.Name, "Edit", "Subscriptions", new { id = subscription.Id }, null)</td>
+                <td>@subscription.PeriodType.Name</td>
+                <td>£@subscription.Amount</td>
+                <td>
+                    <button class="btn-dark delete-row" data-id="@subscription.Id">
+                        Delete
+                    </button>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
 
+@section scripts
+{
+    <script>
+        // REFACTOR: Place in seperate scripts file
+        $(document).ready(function () {
+            $("#subscriptions").on("click", ".delete-row", function () {
+                var id = $(this).data("id");
+
+                $.ajax({
+                    url: "/api/subscriptions/" + id,
+                    method: "delete",
+                    success: function () {
+                        $("#row-" + id).remove();
+                    }
+                });
+            })
+        });
+    </script>
+}
 

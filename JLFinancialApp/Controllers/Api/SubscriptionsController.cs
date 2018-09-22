@@ -90,6 +90,23 @@ namespace JLFinancialApp.Controllers.Api
             _context.SaveChanges();
 
             return Ok();
-        }        
+        }
+
+        [HttpDelete]
+        [Authorize]
+        public IHttpActionResult DeleteSubscription(int id)
+        {
+            var subscriptionInDb = _context.Subscriptions.SingleOrDefault(s => s.Id == id);
+
+            if (subscriptionInDb == null)
+            {
+                return NotFound();
+            }
+
+            _context.Subscriptions.Remove(subscriptionInDb);
+            _context.SaveChanges();
+
+            return Ok();
+        }
     }
 }
