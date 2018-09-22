@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Http;
@@ -11,21 +10,20 @@ using JLFinancialApp.Models;
 using JLFinancialApp.Models.DTOs;
 using AutoMapper;
 
-
 namespace JLFinancialApp.Controllers.Api
 {
-    public class SubscriptionsController : ApiController
+    public class IncomeController : ApiController
     {
         private ApplicationDbContext _context;
 
-        public SubscriptionsController()
+        public IncomeController()
         {
             _context = ApplicationDbContext.Create();
         }
 
         [HttpPost]
         [Authorize]
-        public IHttpActionResult PostSubscription(SubscriptionDTO subDTO)
+        public IHttpActionResult PostIncome(IncomeDTO incomeDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -37,25 +35,23 @@ namespace JLFinancialApp.Controllers.Api
                 return Unauthorized();
             }
 
-
-            var subscription = Mapper.Map<SubscriptionDTO, Subscription>(subDTO);
+            var income = Mapper.Map<IncomeDTO, Income>(incomeDTO);
             
-            subscription.UserId = User.Identity.GetUserId();
+            income.UserId = User.Identity.GetUserId();
 
-            subscription.PeriodType = _context.PeriodTypes.Single(pt => pt.Id == subscription.PeriodType.Id);
+            income.PeriodType = _context.PeriodTypes.Single(pt => pt.Id == income.PeriodType.Id);
 
-            _context.Subscriptions.Add(subscription);
+            _context.Incomes.Add(income);
             _context.SaveChanges();
 
-            subDTO.Id = subscription.Id;
+            incomeDTO.Id = income.Id;
 
-            return Created(new Uri(Request.RequestUri + "/" + subscription.Id), subDTO);
+            return Created(new Uri(Request.RequestUri + "/" + income.Id), incomeDTO);
         }
-
 
         [HttpPut]
         [Authorize]
-        public IHttpActionResult PutSubscription(int id, SubscriptionDTO subscriptionDTO)
+        public IHttpActionResult PutIncome(int id, IncomeDTO incomeDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -67,15 +63,15 @@ namespace JLFinancialApp.Controllers.Api
                 return Unauthorized();
             }
 
-            var subscription = Mapper.Map<SubscriptionDTO, Subscription>(subscriptionDTO);
-            var subscriptionInDb = _context.Subscriptions.SingleOrDefault(i => i.Id == id);            
+            var income = Mapper.Map<IncomeDTO, Income>(incomeDTO);
+            var incomeInDb = _context.Incomes.SingleOrDefault(i => i.Id == id);
 
-            if (subscriptionInDb == null)
+            if(incomeInDb == null)
             {
                 return NotFound();
             }
 
-            var periodType = Mapper.Map<PeriodTypeDTO, PeriodType>(subscriptionDTO.PeriodType);
+            var periodType = Mapper.Map<PeriodTypeDTO, PeriodType>(incomeDTO.PeriodType);
             var periodTypeInDb = _context.PeriodTypes.Single(pt => pt.Id == periodType.Id);
 
             if (periodTypeInDb == null)
@@ -83,13 +79,13 @@ namespace JLFinancialApp.Controllers.Api
                 return NotFound();
             }
 
-            Mapper.Map(subscriptionDTO, subscriptionInDb);
+            Mapper.Map(incomeDTO, incomeInDb);
 
-            subscriptionInDb.PeriodType = periodTypeInDb;
+            incomeInDb.PeriodType = periodTypeInDb;
 
             _context.SaveChanges();
 
             return Ok();
-        }        
+        }
     }
 }

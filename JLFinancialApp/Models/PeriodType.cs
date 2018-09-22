@@ -12,8 +12,7 @@ namespace JLFinancialApp.Models
 
         [Required]
         public string Name { get; set; }
-
-        [Required]
+        
         public int FrequencyPerYear { get; set; }
 
         // PeriodType Ids

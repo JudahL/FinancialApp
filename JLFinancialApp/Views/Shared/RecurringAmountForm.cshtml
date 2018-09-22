@@ -1,8 +1,4 @@
-﻿@model JLFinancialApp.Models.ViewModels.SubscriptionFormViewModel
-
-@{
-    ViewBag.Title = "Subscription Form";
-}
+﻿@model JLFinancialApp.Models.ViewModels.RecurringAmountFormViewModel
 
 <h2>@Model.Title</h2>
 
@@ -10,24 +6,25 @@
 
 <div id="alert" class="alert alert-danger" role="alert" hidden>
     <strong>Error</strong>
-    Something went wrong and the subscription could not be added.
+    Something went wrong and the @Model.Type could not be added.
 </div>
 
-<form id="newSubscription">
+<form id="recurringAmount" data-id="@Model.Id" data-url="@Model.Type" data-method="@Model.Method">
     <div class="row justify-content-start">
         <div class="col-md-4">
             <div class="form-group">
                 <label class="control-label">Name</label>
-                <input id="name" name="name" data-rule-validName required type="text" value="@Model.Name" class="form-control" />
+                <input id="name" name="name" data-rule-validname="true" type="text" value="@Model.Name" class="form-control" />
             </div>
 
             <div class="form-group">
                 <label class="control-label">Type</label>
-                <select class="form-control" data-rule-validType required id="type" name="type">
+                <select class="form-control" data-rule-validtype="true" id="type" name="type">
                     <option value="0">Select Period Type</option>
                     @foreach (var periodType in Model.PeriodTypes)
                     {
-                        <option value="@periodType.Id">@periodType.Name</option>
+                        var isSelected = periodType.Id == Model.PeriodTypeId;
+                        <option value="@periodType.Id" selected="@isSelected">@periodType.Name</option>
                     }
                 </select>
             </div>
@@ -38,7 +35,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">£</span>
                     </div>
-                    <input id="amount" name="amount" data-rule-validAmount required type="text" value="@Model.Amount" class="form-control" />
+                    <input id="amount" name="amount" data-rule-validamount="true" type="text" value="@Model.Amount" class="form-control input-group-input" />
                 </div>
             </div>
 

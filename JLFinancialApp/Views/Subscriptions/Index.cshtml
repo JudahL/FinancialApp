@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<JLFinancialApp.Models.Subscription>
+
 @{
     ViewBag.Title = "Index";
 }
@@ -8,4 +9,33 @@
 <hr />
 
 @Html.ActionLink("Add New Subscription", "New", "Subscriptions", null, new { @class="btn btn-primary btn-lg" })
+
+<hr />
+
+<table id="subscriptions" class="table table-bordered table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">
+                Name
+            </th>
+            <th scope="col">
+                Period Type
+            </th>
+            <th scope="col">
+                Amount
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var subscription in Model)
+        {
+        <tr>
+            <td>@Html.ActionLink(subscription.Name, "Edit", "Subscriptions", new { id = subscription.Id }, null)</td>
+            <td>@subscription.PeriodType.Name</td>
+            <td>£@subscription.Amount</td>
+        </tr>
+        }
+    </tbody>
+</table>
+
 

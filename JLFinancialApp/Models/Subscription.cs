@@ -7,6 +7,6 @@ using System.Web;
 namespace JLFinancialApp.Models
 {
     public class Subscription : RecurringAmount
-    {        
+    {
     }
 }

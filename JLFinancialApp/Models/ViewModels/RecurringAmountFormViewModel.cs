@@ -7,7 +7,7 @@ using JLFinancialApp.Models.DTOs;
 
 namespace JLFinancialApp.Models.ViewModels
 {
-    public class SubscriptionFormViewModel
+    public class RecurringAmountFormViewModel
     {
         public int Id { get; set; }
 
@@ -22,11 +22,15 @@ namespace JLFinancialApp.Models.ViewModels
         [Required]
         public int? PeriodTypeId { get; set; }
 
-        public string Title { get { return Id != 0 ? "Edit Subscription" : "Add New Subscription"; } }
+        public string Title { get { return Id != 0 ? "Edit " + Type : "Add New " + Type; } }
 
-        public SubscriptionFormViewModel()
+        public string Type;
+
+        public string Method;
+
+        public RecurringAmountFormViewModel()
         {
             Id = 0;
-        }
+        }        
     }
 }

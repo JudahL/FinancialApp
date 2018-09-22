@@ -6,7 +6,7 @@ using System.Web;
 
 namespace JLFinancialApp.Models.DTOs
 {
-    public class SubscriptionDTO
+    public class IncomeDTO
     {
         public int Id { get; set; }
 
@@ -15,7 +15,7 @@ namespace JLFinancialApp.Models.DTOs
         public string Name { get; set; }
 
         public int Amount { get; set; }
-        
+
         [Required]
         public PeriodTypeDTO PeriodType { get; set; }
     }
