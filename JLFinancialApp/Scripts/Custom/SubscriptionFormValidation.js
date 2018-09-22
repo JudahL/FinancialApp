@@ -41,17 +41,21 @@
                 },
             })
                 .done(function () {
-                // Reset form values
-                $("#name").val("");
-                $("#type").val("0");
-                $("#amount").val("");
+                    // Reset form values
+                    $("#name").val("");
+                    $("#type").val("0");
+                    $("#amount").val("");
 
-                // Reset form validation
-                validator.resetForm();
-            })
-            .fail(function () {
-                $("#alert").removeAttr("hidden");
-            });
+                    // Reset form validation
+                    validator.resetForm();
+
+                    if (method !== "post") {
+                        window.location.pathname = "/" + form.data("url");
+                    }
+                })
+                .fail(function () {
+                    $("#alert").removeAttr("hidden");
+                });
 
             return false;
         },
