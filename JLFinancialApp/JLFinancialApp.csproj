@@ -332,6 +332,8 @@
     <Content Include="Views\Subscriptions\Index.cshtml" />
     <Content Include="Views\Income\Index.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Dashboard\_Overview.cshtml" />
+    <Content Include="Views\Dashboard\_Costs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
