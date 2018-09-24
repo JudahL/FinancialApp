@@ -18,5 +18,7 @@ namespace JLFinancialApp.Models.DTOs
         
         [Required]
         public PeriodTypeDTO PeriodType { get; set; }
+
+        public int MonthlyAmount { get; set; }
     }
 }

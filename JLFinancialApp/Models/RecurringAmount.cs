@@ -24,5 +24,13 @@ namespace JLFinancialApp.Models
 
         [Required]
         public PeriodType PeriodType { get; set; }
+
+        public int MonthlyAmount
+        {
+            get
+            {
+                return (int)(Amount * (PeriodType.FrequencyPerYear / 12f));
+            }
+        }
     }
 }

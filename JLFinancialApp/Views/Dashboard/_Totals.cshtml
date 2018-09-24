@@ -1,0 +1,50 @@
+﻿
+<div class="card text-white bg-dark mb-4">
+
+    <div class="card-header">
+        Monthly Totals
+    </div>
+
+    <div class="card-body">
+        <!-- Income Totals -->
+        <div class="card text-white bg-primary mb-2">
+            <div class="card-header">
+                Income
+                @Html.ActionLink("Add", "Index", "Income", null, new { @class = "card-link float-right text-light" })
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">
+                    Total:
+                    <strong>£@Model.TotalIncome</strong>
+                </h4>
+            </div>
+        </div>
+
+        <!-- Cost Totals -->
+        <div class="card text-white bg-warning mb-2">
+            <div class="card-header">
+                Costs
+                @Html.ActionLink("Add", "Index", "Subscriptions", null, new { @class = "card-link float-right text-light" })
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">
+                    Total:
+                    <strong>£@Model.TotalCosts</strong>
+                </h4>
+            </div>
+        </div>
+
+        <!-- Surplus Totals -->
+        <div class="card text-white bg-success">
+            <div class="card-header">Surplus</div>
+            <div class="card-body">
+                <h4 class="card-title">
+                    Total:
+                    <strong>£@Model.Surplus</strong>
+                </h4>
+            </div>
+        </div>
+
+    </div>
+
+</div>
