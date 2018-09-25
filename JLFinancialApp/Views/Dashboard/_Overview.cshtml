@@ -1,12 +1,16 @@
 ﻿@model JLFinancialApp.Models.ViewModels.DashboardViewModel
 
 <!-- Totals Bar -->
-<div class="card text-white bg-dark mb-4">
+<div class="card bg-light mb-4">
     <div class="card-header">Monthly Overview</div>
     <div class="card-body">
         <div class="progress bg-success" style="height: 3rem">
-            <div class="progress-bar bg-warning text-white lead" role="progressbar" style="width: @Model.CostsPercent%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">Costs: £@Model.TotalCosts</div>
-            <div class="progress-bar bg-success text-dark lead" role="progressbar" style="width: @Model.SurplusPercent%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">Surplus: £@Model.Surplus</div>
+            <div class="progress-bar bg-warning text-white lead" role="progressbar" style="width: @Model.CostsPercent%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                <strong>Costs: £@Model.TotalCosts</strong>
+            </div>
+            <div class="progress-bar bg-success text-white lead" role="progressbar" style="width: @Model.SurplusPercent%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                <strong>Surplus: £@Model.Surplus</strong>
+            </div>
         </div>
     </div>
 </div>

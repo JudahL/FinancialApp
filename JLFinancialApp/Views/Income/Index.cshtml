@@ -15,7 +15,7 @@
 
 <table id="incomes" class="table table-bordered table-striped">
     <thead>
-        <tr class="table-primary">
+        <tr class="thead-inverse">
             <th scope="col">
                 Name
             </th>
@@ -38,7 +38,7 @@
                 <td>@income.PeriodType.Name</td>
                 <td>£@income.Amount</td>
                 <td>
-                    <button class="btn-dark delete-row" data-id="@income.Id">
+                    <button class="btn btn-sm btn-block btn-danger delete-row" data-id="@income.Id">
                         Delete
                     </button>
                 </td>
@@ -47,12 +47,12 @@
     </tbody>
 </table>
 
-@section scripts 
+@section scripts
 {
     <script>
         // REFACTOR: Place in seperate scripts file
-        $(document).ready(function () {            
-            $("#incomes").on("click", ".delete-row", function () {    
+        $(document).ready(function () {
+            $("#incomes").on("click", ".delete-row", function () {
                 var id = $(this).data("id");
 
                 $.ajax({
@@ -64,5 +64,5 @@
                 });
             })
         });
-    </script>    
+    </script>
 }

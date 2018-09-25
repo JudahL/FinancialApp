@@ -24,7 +24,7 @@ namespace JLFinancialApp
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap-yeti.css",
+                      "~/Content/bootstrap-materia.css",
                       "~/Content/site.css"));
         }
     }

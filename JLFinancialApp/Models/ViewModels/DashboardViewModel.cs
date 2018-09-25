@@ -15,9 +15,13 @@ namespace JLFinancialApp.Models.ViewModels
         public int TotalCosts { get; set; }
 
         public int Surplus { get { return TotalIncome - TotalCosts; } }
+
         public float CostsPercent { get { return ((float)TotalCosts / TotalIncome) * 100; } }
+        public int RoundedCostsPercent { get { return (int)Math.Round(CostsPercent); } }
+
         public float SurplusPercent { get { return 100f - CostsPercent; } }
-        
+        public int RoundedSurplusPercent { get { return (int)Math.Round(SurplusPercent); } }
+
         public DashboardViewModel(IOrderedEnumerable<IncomeDTO> incomes, IOrderedEnumerable<SubscriptionDTO> subscriptions, int totalIncome, int totalCosts)
         {
             TotalIncome = totalIncome;

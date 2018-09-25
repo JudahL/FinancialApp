@@ -8,12 +8,12 @@
 
 <hr />
 
-@Html.ActionLink("Add New Subscription", "New", "Subscriptions", null, new { @class = "btn btn-primary btn-lg" })
+@Html.ActionLink("Add New Subscription", "New", "Subscriptions", null, new { @class = "btn btn-warning btn-lg" })
 
 <hr />
 
 <table id="subscriptions" class="table table-bordered table-striped">
-    <thead class="thead-dark">
+    <thead class="bg-warning text-light">
         <tr>
             <th scope="col">
                 Name
@@ -37,7 +37,7 @@
                 <td>@subscription.PeriodType.Name</td>
                 <td>£@subscription.Amount</td>
                 <td>
-                    <button class="btn-dark delete-row" data-id="@subscription.Id">
+                    <button class="btn btn-sm btn-block btn-danger delete-row" data-id="@subscription.Id">
                         Delete
                     </button>
                 </td>

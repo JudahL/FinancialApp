@@ -1,22 +1,22 @@
 ﻿@model JLFinancialApp.Models.ViewModels.DashboardViewModel
 
-@{ 
+@{
     /// Card classes for colouring different types
     string[] STAT_CARD_CLASSES =
     {
-        "bg-danger text-white",
-        "bg-primary text-white",
-        "bg-success text-white",
-        "bg-warning text-white",
-        "bg-info text-white",
-        "bg-light text-dark",
-    };
+"bg-danger text-white",
+"bg-primary text-white",
+"bg-success text-white",
+"bg-warning text-white",
+"bg-info text-white",
+"bg-dark text-white",
+};
 
     var stats = Model.GetTopCostsStats();
 }
 
 <!-- Costs BG Card -->
-<div class="card text-white bg-dark mb-4">
+<div class="card bg-light mb-4">
     <div class="card-header">Costs</div>
     <div class="card-body">
 
@@ -35,15 +35,19 @@
             @for (int i = 0; i < stats.Count; i++)
             {
                 <!-- Stat Card -->
-                <div class="col-6 col-md-4 col-xl-3">
+                <div class="col-12 col-md-6 col-xl-4">
                     <div class="card m-1 @STAT_CARD_CLASSES[i]">
-                        <div class="card-header">
-                            @stats[i].Name
-                        </div>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                £@stats[i].Amount
-                            </h4>
+                        <div class="card-body row no-gutters">
+                            <div class="col-9">
+                                <h4 class="card-title mb-0">
+                                    <small>@stats[i].Name</small>
+                                </h4>
+                            </div>
+                            <div class="col-3">
+                                <h4 class="card-title float-right mb-0">
+                                    <strong>£@stats[i].Amount</strong>
+                                </h4>
+                            </div>                              
                         </div>
                     </div>
                 </div>

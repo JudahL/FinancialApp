@@ -1,5 +1,5 @@
 ﻿
-<div class="card text-white bg-dark mb-4">
+<div class="card bg-light mb-4">
 
     <div class="card-header">
         Monthly Totals
@@ -7,44 +7,51 @@
 
     <div class="card-body">
         <!-- Income Totals -->
-        <div class="card text-white bg-primary mb-2">
-            <div class="card-header">
-                Income
-                @Html.ActionLink("Add", "Index", "Income", null, new { @class = "card-link float-right text-light" })
-            </div>
+        <div class="card text-white bg-primary mb-3">
             <div class="card-body">
-                <h4 class="card-title">
-                    Total:
-                    <strong>£@Model.TotalIncome</strong>
-                </h4>
+                <div class="row">
+                    <div class="col-8">
+                        <h4 class="card-title mb-0"><strong>Income</strong></h4>
+                    </div>
+                    <div class="col-4">
+                        <h4 class="card-title float-right mb-0">£@Model.TotalIncome</h4>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Cost Totals -->
-        <div class="card text-white bg-warning mb-2">
-            <div class="card-header">
-                Costs
-                @Html.ActionLink("Add", "Index", "Subscriptions", null, new { @class = "card-link float-right text-light" })
-            </div>
+        <div class="card text-white bg-warning mb-3">
             <div class="card-body">
-                <h4 class="card-title">
-                    Total:
-                    <strong>£@Model.TotalCosts</strong>
-                </h4>
+                <div class="row">
+                    <div class="col-8">
+                        <h4 class="card-title"><strong>Costs</strong></h4>
+                    </div>
+                    <div class="col-4">
+                        <h4 class="card-title float-right mb-1">£@Model.TotalCosts</h4>
+                        <p class="card-text float-right">@Model.RoundedCostsPercent%</p>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Surplus Totals -->
         <div class="card text-white bg-success">
-            <div class="card-header">Surplus</div>
             <div class="card-body">
-                <h4 class="card-title">
-                    Total:
-                    <strong>£@Model.Surplus</strong>
-                </h4>
+                <div class="row">
+                    <div class="col-8">
+                        <h4 class="card-title"><strong>Surplus</strong></h4>
+                    </div>
+                    <div class="col-4">
+                        <h4 class="card-title float-right mb-1">£@Model.Surplus</h4>
+                        <p class="card-text float-right">@Model.RoundedSurplusPercent%</p>
+                    </div>
+                </div>
             </div>
         </div>
 
     </div>
 
 </div>
+
+@* @Html.ActionLink("Add", "Index", "Subscriptions", null, new { @class = "card-link float-right text-light" }) *@
