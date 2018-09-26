@@ -66,24 +66,22 @@ namespace JLFinancialApp.Controllers.Api
             {
                 return Unauthorized();
             }
-
-            var subscription = Mapper.Map<SubscriptionDTO, Subscription>(subscriptionDTO);
-            var subscriptionInDb = _context.Subscriptions.SingleOrDefault(i => i.Id == id);            
+            
+            var subscriptionInDb = _context.Subscriptions.SingleOrDefault(i => i.Id == id);
 
             if (subscriptionInDb == null)
             {
                 return NotFound();
             }
 
-            var periodType = Mapper.Map<PeriodTypeDTO, PeriodType>(subscriptionDTO.PeriodType);
-            var periodTypeInDb = _context.PeriodTypes.Single(pt => pt.Id == periodType.Id);
+            Mapper.Map(subscriptionDTO, subscriptionInDb);
+
+            var periodTypeInDb = _context.PeriodTypes.SingleOrDefault(pt => pt.Id == subscriptionDTO.PeriodType.Id);
 
             if (periodTypeInDb == null)
             {
                 return NotFound();
             }
-
-            Mapper.Map(subscriptionDTO, subscriptionInDb);
 
             subscriptionInDb.PeriodType = periodTypeInDb;
 

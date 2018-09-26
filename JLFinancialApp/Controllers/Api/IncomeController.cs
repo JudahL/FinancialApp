@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Data.Entity;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -62,24 +63,22 @@ namespace JLFinancialApp.Controllers.Api
             {
                 return Unauthorized();
             }
+            
+            var incomeInDb = _context.Incomes.SingleOrDefault(i => i.Id == id);            
 
-            var income = Mapper.Map<IncomeDTO, Income>(incomeDTO);
-            var incomeInDb = _context.Incomes.SingleOrDefault(i => i.Id == id);
-
-            if(incomeInDb == null)
-            {
-                return NotFound();
-            }
-
-            var periodType = Mapper.Map<PeriodTypeDTO, PeriodType>(incomeDTO.PeriodType);
-            var periodTypeInDb = _context.PeriodTypes.Single(pt => pt.Id == periodType.Id);
-
-            if (periodTypeInDb == null)
+            if (incomeInDb == null)
             {
                 return NotFound();
             }
 
             Mapper.Map(incomeDTO, incomeInDb);
+
+            var periodTypeInDb = _context.PeriodTypes.SingleOrDefault(pt => pt.Id == incomeDTO.PeriodType.Id);
+
+            if (periodTypeInDb == null)
+            {
+                return NotFound();
+            }
 
             incomeInDb.PeriodType = periodTypeInDb;
 

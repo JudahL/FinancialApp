@@ -12,7 +12,7 @@ namespace JLFinancialApp.Models.DTOs
 
         [Required]
         public string Name { get; set; }
-
+        
         public int FrequencyPerYear { get; set; }
     }
 }
