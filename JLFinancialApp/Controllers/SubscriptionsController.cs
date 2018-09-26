@@ -27,7 +27,7 @@ namespace JLFinancialApp.Controllers
             var userId = User.Identity.GetUserId();
             IEnumerable<Subscription> subscriptions = _context.Subscriptions.Where(s => s.UserId == userId).Include(s => s.PeriodType).ToList();
 
-            var vm = new RecurringAmountListViewModel(subscriptions, "Subscription", "Subcriptions", "warning");
+            var vm = new RecurringAmountListViewModel(subscriptions, "Subscription", "Subscriptions", "warning");
 
             return View("RecurringAmountList", vm);
         }
