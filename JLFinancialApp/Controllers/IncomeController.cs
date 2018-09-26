@@ -24,9 +24,11 @@ namespace JLFinancialApp.Controllers
         public ActionResult Index()
         {
             var userId = User.Identity.GetUserId();
-            IEnumerable<Income> subscriptions = _context.Incomes.Where(i => i.UserId == userId).Include(i => i.PeriodType).ToList();
+            IEnumerable<Income> incomes = _context.Incomes.Where(i => i.UserId == userId).Include(i => i.PeriodType).ToList();
 
-            return View(subscriptions);
+            var vm = new RecurringAmountListViewModel(incomes, "Income", "Income", "primary");
+
+            return View("RecurringAmountList", vm);
         }
         
         public ActionResult New()

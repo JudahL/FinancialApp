@@ -1,0 +1,77 @@
+﻿@model JLFinancialApp.Models.ViewModels.RecurringAmountListViewModel
+
+@{
+    ViewBag.Title = Model.RecurringType;
+}
+
+<h2>@Model.RecurringType</h2>
+
+<hr />
+
+@Html.ActionLink("Add New " + Model.RecurringType, "New", Model.ControllerName, null, new { @class = "btn btn-" + Model.Colour + " btn-lg" })
+
+<hr />
+
+<table id="amount-list" data-controller="@Model.ControllerName" class="table table-bordered table-striped">
+    <thead>
+        <tr class="bg-@Model.Colour text-white">
+            <th scope="col">
+                Name
+            </th>
+            <th scope="col">
+                Period Type
+            </th>
+            <th scope="col">
+                Amount
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var amount in Model.Amounts)
+        {
+            <tr id="row-@amount.Id">
+                <td>
+                    <button type="button" class="btn btn-link p-0 text-capitalize edit" data-target="#editModal" data-toggle="modal" data-id="@amount.Id">@amount.Name</button>
+                </td>
+                <td>@amount.PeriodType.Name</td>
+                <td>£@amount.Amount</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@Html.Partial("_EditDeleteModal")
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            var controller = $("#amount-list").data("controller");
+
+            $("#editModal").on("show.bs.modal", function (event) {
+                var button = $(event.relatedTarget);
+                var modal = $(this);
+
+                var modalTitle = modal.find("#editModal-title");
+                var modalEditLink = modal.find("#editModal-edit");
+                var modalDeleteButton = modal.find("#editModal-delete");                
+
+                modalTitle.text(button.text());
+                modalEditLink.attr("href", "/" + controller + "/edit/" + button.data("id"));
+                modalDeleteButton.attr("data-id", button.data("id"));
+            });
+
+            $("#editModal-delete").on("click", function () {
+                var id = $(this).data("id");
+
+                $.ajax({
+                    url: "/api/" + controller + "/" + id,
+                    method: "delete",
+                    success: function () {
+                        $("#row-" + id).remove();
+                    }
+                });
+            });
+        });
+    </script>
+}
