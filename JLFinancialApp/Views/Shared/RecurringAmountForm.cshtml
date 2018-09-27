@@ -4,14 +4,20 @@
 
 <hr />
 
-<div id="alert" class="alert alert-danger" role="alert" hidden>
-    <strong>Error</strong>
-    Something went wrong and the @Model.Type could not be added.
-</div>
+<div class="row justify-content-start">
+    <div class="col-md-4">
+        <div id="failAlert" class="alert alert-danger" role="alert" hidden>
+            <strong>Error</strong>
+            Something went wrong and the @Model.Type could not be added.
+        </div>
 
-<form id="recurringAmount" data-id="@Model.Id" data-url="@Model.Type" data-method="@Model.Method">
-    <div class="row justify-content-start">
-        <div class="col-md-4">
+        <div id="successAlert" class="alert alert-success" role="alert" hidden>
+            <strong>@Model.Type Added!</strong>
+            <p id="successAlert-info" class="mb-0">The @Model.Type has been added to your list.</p>
+        </div>
+
+
+        <form id="recurringAmount" data-id="@Model.Id" data-controller="@Model.Controller" data-method="@Model.Method">
             <div class="form-group">
                 <label class="control-label">Name</label>
                 <input id="name" name="name" data-rule-validname="true" type="text" value="@Model.Name" class="form-control" />
@@ -39,16 +45,14 @@
                 </div>
             </div>
 
-
-            @Html.AntiForgeryToken()
             <br />
             <button class="btn btn-primary btn-lg">Submit</button>
-        </div>
+        </form>
     </div>
-</form>
+</div>
 
 @section scripts
 {
-    @Scripts.Render("~/bundles/jqueryval");
-    @Scripts.Render("~/bundles/subscriptionForm");
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/subscriptionForm")
 }

@@ -44,7 +44,8 @@ namespace JLFinancialApp.Controllers
             var vm = new RecurringAmountFormViewModel()
             {
                 PeriodTypes = Mapper.Map<IEnumerable<PeriodType>, IEnumerable<PeriodTypeDTO>>(periodTypes),
-                Type = "subscriptions",
+                Type = "Subscription",
+                Controller = "subscriptions",
                 Method = "post",
             };
 
@@ -65,7 +66,8 @@ namespace JLFinancialApp.Controllers
 
             var periodTypes = _periodTypeRepository.GetAll();
             vm.PeriodTypes = Mapper.Map<IEnumerable<PeriodType>, IEnumerable<PeriodTypeDTO>>(periodTypes);
-            vm.Type = "subscriptions";
+            vm.Type = "Subscription";
+            vm.Controller = "subscriptions";
             vm.Method = "put";
 
             return View("RecurringAmountForm", vm);

@@ -11,7 +11,6 @@ using JLFinancialApp.Models;
 using JLFinancialApp.Models.DTOs;
 using JLFinancialApp.Repositories;
 using AutoMapper;
-using System.Diagnostics;
 
 namespace JLFinancialApp.Controllers.Api
 {
@@ -87,9 +86,6 @@ namespace JLFinancialApp.Controllers.Api
             {
                 return NotFound();
             }
-
-            Debug.WriteLine(periodTypeInDb.Name);
-            Debug.WriteLine(periodTypeInDb.FrequencyPerYear);
 
             subscriptionInDb.PeriodType = periodTypeInDb;
 

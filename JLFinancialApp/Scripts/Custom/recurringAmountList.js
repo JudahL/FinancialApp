@@ -11,7 +11,7 @@
 
         modalTitle.text(button.text());
         modalEditLink.attr("href", "/" + controller + "/edit/" + button.data("id"));
-        modalDeleteButton.attr("data-id", button.data("id"));
+        modalDeleteButton.data("id", button.data("id"));
     });
 
     $("#editModal-delete").on("click", function () {

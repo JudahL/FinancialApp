@@ -24,9 +24,11 @@ namespace JLFinancialApp.Models.ViewModels
 
         public string Title { get { return Id != 0 ? "Edit " + Type : "Add New " + Type; } }
 
-        public string Type;
+        public string Type { get; set; }
 
-        public string Method;
+        public string Controller { get; set; }
+
+        public string Method { get; set; }
 
         public RecurringAmountFormViewModel()
         {

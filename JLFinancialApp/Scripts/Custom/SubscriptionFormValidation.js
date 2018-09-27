@@ -17,7 +17,7 @@
     // Setting up form variables
     var form = $("#recurringAmount");
     var method = form.data("method");
-    var apiUrl = "/api/" + form.data("url");    
+    var apiUrl = "/api/" + form.data("controller");    
     var id = form.data("id");
 
     if (method == "put" || method == "delete") {
@@ -41,6 +41,14 @@
                 },
             })
                 .done(function () {
+                    if (method !== "post") {
+                        window.location.pathname = "/" + form.data("url");
+                    } else {
+                        var successAlert = $("#successAlert");
+                        successAlert.removeAttr("hidden");
+                        successAlert.find("#successAlert-info").text($("#name").val() + " has been added to your list!");
+                    }
+
                     // Reset form values
                     $("#name").val("");
                     $("#type").val("0");
@@ -48,13 +56,9 @@
 
                     // Reset form validation
                     validator.resetForm();
-
-                    if (method !== "post") {
-                        window.location.pathname = "/" + form.data("url");
-                    }
                 })
                 .fail(function () {
-                    $("#alert").removeAttr("hidden");
+                    $("#failAlert").removeAttr("hidden");
                 });
 
             return false;
