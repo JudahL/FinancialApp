@@ -9,37 +9,41 @@ using AutoMapper;
 using JLFinancialApp.Models.ViewModels;
 using JLFinancialApp.Models.DTOs;
 using JLFinancialApp.Models;
+using JLFinancialApp.Repositories;
 
 namespace JLFinancialApp.Controllers
 {
     public class SubscriptionsController : Controller
     {
-        private ApplicationDbContext _context;
+        private readonly SubscriptionRepository _repository;
+        private readonly PeriodTypeRepository _periodTypeRepository;
 
         public SubscriptionsController()
         {
-
-            _context = ApplicationDbContext.Create();
+            var dbContext = ApplicationDbContext.Create();
+            _repository = new SubscriptionRepository(dbContext);
+            _periodTypeRepository = new PeriodTypeRepository(dbContext);
         }
-        // GET: Subscriptions
+
+        /// GET: Subscriptions
         public ActionResult Index()
         {
             var userId = User.Identity.GetUserId();
-            IEnumerable<Subscription> subscriptions = _context.Subscriptions.Where(s => s.UserId == userId).Include(s => s.PeriodType).ToList();
+            IEnumerable<Subscription> subscriptions = _repository.GetUserList(userId);
 
             var vm = new RecurringAmountListViewModel(subscriptions, "Subscription", "Subscriptions", "warning");
 
             return View("RecurringAmountList", vm);
         }
         
-        // GET: Subscriptions/New
+        /// GET: Subscriptions/New
         public ActionResult New()
         {
-            var periodTypes = _context.PeriodTypes.ToList();
+            var periodTypes = _periodTypeRepository.GetAll();
 
             var vm = new RecurringAmountFormViewModel()
             {
-                PeriodTypes = Mapper.Map<List<PeriodType>, List<PeriodTypeDTO>>(periodTypes),
+                PeriodTypes = Mapper.Map<IEnumerable<PeriodType>, IEnumerable<PeriodTypeDTO>>(periodTypes),
                 Type = "subscriptions",
                 Method = "post",
             };
@@ -47,9 +51,10 @@ namespace JLFinancialApp.Controllers
             return View("RecurringAmountForm",  vm);
         }
 
+        /// GET: Subscriptions/Edit/{id}
         public ActionResult Edit(int id)
         {
-            var subscription = _context.Subscriptions.Include(s => s.PeriodType).SingleOrDefault(s => s.Id == id);
+            var subscription = _repository.Get(id);
 
             if (subscription == null)
             {
@@ -58,8 +63,8 @@ namespace JLFinancialApp.Controllers
 
             var vm = Mapper.Map<Subscription, RecurringAmountFormViewModel>(subscription);
 
-            var periodTypes = _context.PeriodTypes.ToList();
-            vm.PeriodTypes = Mapper.Map<List<PeriodType>, List<PeriodTypeDTO>>(periodTypes);
+            var periodTypes = _periodTypeRepository.GetAll();
+            vm.PeriodTypes = Mapper.Map<IEnumerable<PeriodType>, IEnumerable<PeriodTypeDTO>>(periodTypes);
             vm.Type = "subscriptions";
             vm.Method = "put";
 

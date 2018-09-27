@@ -9,23 +9,28 @@ using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using JLFinancialApp.Models;
 using JLFinancialApp.Models.DTOs;
+using JLFinancialApp.Repositories;
 using AutoMapper;
-
+using System.Diagnostics;
 
 namespace JLFinancialApp.Controllers.Api
 {
     public class SubscriptionsController : ApiController
     {
-        private ApplicationDbContext _context;
+        private readonly SubscriptionRepository _repository;
+        private readonly PeriodTypeRepository _periodTypeRepository;
+        private readonly ApplicationDbContext _context;
 
         public SubscriptionsController()
         {
             _context = ApplicationDbContext.Create();
+            _repository = new SubscriptionRepository(_context);
+            _periodTypeRepository = new PeriodTypeRepository(_context);
         }
 
         [HttpPost]
         [Authorize]
-        public IHttpActionResult PostSubscription(SubscriptionDTO subDTO)
+        public IHttpActionResult PostSubscription(SubscriptionDTO subscriptionDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -38,18 +43,18 @@ namespace JLFinancialApp.Controllers.Api
             }
 
 
-            var subscription = Mapper.Map<SubscriptionDTO, Subscription>(subDTO);
+            var subscription = Mapper.Map<SubscriptionDTO, Subscription>(subscriptionDTO);
             
             subscription.UserId = User.Identity.GetUserId();
 
-            subscription.PeriodType = _context.PeriodTypes.Single(pt => pt.Id == subscription.PeriodType.Id);
+            subscription.PeriodType = _periodTypeRepository.Get(subscriptionDTO.PeriodType.Id);
 
-            _context.Subscriptions.Add(subscription);
+            _repository.Add(subscription);
             _context.SaveChanges();
 
-            subDTO.Id = subscription.Id;
+            subscriptionDTO.Id = subscription.Id;
 
-            return Created(new Uri(Request.RequestUri + "/" + subscription.Id), subDTO);
+            return Created(new Uri(Request.RequestUri + "/" + subscription.Id), subscriptionDTO);
         }
 
 
@@ -66,8 +71,8 @@ namespace JLFinancialApp.Controllers.Api
             {
                 return Unauthorized();
             }
-            
-            var subscriptionInDb = _context.Subscriptions.SingleOrDefault(i => i.Id == id);
+
+            var subscriptionInDb = _repository.Get(id);
 
             if (subscriptionInDb == null)
             {
@@ -76,12 +81,15 @@ namespace JLFinancialApp.Controllers.Api
 
             Mapper.Map(subscriptionDTO, subscriptionInDb);
 
-            var periodTypeInDb = _context.PeriodTypes.SingleOrDefault(pt => pt.Id == subscriptionDTO.PeriodType.Id);
+            var periodTypeInDb = _periodTypeRepository.Get(subscriptionDTO.PeriodType.Id);
 
             if (periodTypeInDb == null)
             {
                 return NotFound();
             }
+
+            Debug.WriteLine(periodTypeInDb.Name);
+            Debug.WriteLine(periodTypeInDb.FrequencyPerYear);
 
             subscriptionInDb.PeriodType = periodTypeInDb;
 
@@ -94,14 +102,14 @@ namespace JLFinancialApp.Controllers.Api
         [Authorize]
         public IHttpActionResult DeleteSubscription(int id)
         {
-            var subscriptionInDb = _context.Subscriptions.SingleOrDefault(s => s.Id == id);
+            var subscriptionInDb = _repository.Get(id);
 
             if (subscriptionInDb == null)
             {
                 return NotFound();
             }
 
-            _context.Subscriptions.Remove(subscriptionInDb);
+            _repository.Remove(subscriptionInDb);
             _context.SaveChanges();
 
             return Ok();

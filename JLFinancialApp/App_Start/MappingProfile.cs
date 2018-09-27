@@ -16,14 +16,16 @@ namespace JLFinancialApp.App_Start
             // Subscription maps
             CreateMap<Subscription, SubscriptionDTO>();
             CreateMap<SubscriptionDTO, Subscription>()
-                .ForMember(subscription => subscription.Id, opt => opt.Ignore());
+                .ForMember(subscription => subscription.Id, opt => opt.Ignore())
+                .ForMember(subscription => subscription.PeriodType, opt => opt.Ignore());
 
             CreateMap<Subscription, RecurringAmountFormViewModel>();
 
             // Income Maps
             CreateMap<Income, IncomeDTO>();
             CreateMap<IncomeDTO, Income>()
-                .ForMember(income => income.Id, opt => opt.Ignore());
+                .ForMember(income => income.Id, opt => opt.Ignore())
+                .ForMember(income => income.PeriodType, opt => opt.Ignore());
 
             CreateMap<Income, RecurringAmountFormViewModel>();
 

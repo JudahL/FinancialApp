@@ -9,35 +9,41 @@ using AutoMapper;
 using JLFinancialApp.Models;
 using JLFinancialApp.Models.ViewModels;
 using JLFinancialApp.Models.DTOs;
+using JLFinancialApp.Repositories;
 
 namespace JLFinancialApp.Controllers
 {
     public class IncomeController : Controller
     {
-        private ApplicationDbContext _context;
+        private readonly IncomeRepository _repository;
+        private readonly PeriodTypeRepository _periodTypeRepository;
 
         public IncomeController()
         {
-            _context = ApplicationDbContext.Create();
+            var dbContext = ApplicationDbContext.Create();
+            _repository = new IncomeRepository(dbContext);
+            _periodTypeRepository = new PeriodTypeRepository(dbContext);
         }
 
+        /// GET: Income
         public ActionResult Index()
         {
             var userId = User.Identity.GetUserId();
-            IEnumerable<Income> incomes = _context.Incomes.Where(i => i.UserId == userId).Include(i => i.PeriodType).ToList();
+            IEnumerable<Income> incomes = _repository.GetUserList(userId);
 
             var vm = new RecurringAmountListViewModel(incomes, "Income", "Income", "primary");
 
             return View("RecurringAmountList", vm);
         }
-        
+
+        /// GET: Income/New
         public ActionResult New()
         {
-            var periodTypes = _context.PeriodTypes.ToList();
+            var periodTypes = _periodTypeRepository.GetAll();
 
             var vm = new RecurringAmountFormViewModel()
             {
-                PeriodTypes = Mapper.Map<List<PeriodType>, List<PeriodTypeDTO>>(periodTypes),
+                PeriodTypes = Mapper.Map<IEnumerable<PeriodType>, IEnumerable<PeriodTypeDTO>>(periodTypes),
                 Type = "income",
                 Method = "post",
             };
@@ -45,9 +51,10 @@ namespace JLFinancialApp.Controllers
             return View("RecurringAmountForm", vm);
         }
 
+        /// GET: Income/Edit/{id}
         public ActionResult Edit(int id)
         {
-            var income = _context.Incomes.Include(s => s.PeriodType).SingleOrDefault(i => i.Id == id);
+            var income = _repository.Get(id);
 
             if (income == null)
             {
@@ -56,8 +63,8 @@ namespace JLFinancialApp.Controllers
 
             var vm = Mapper.Map<Income, RecurringAmountFormViewModel>(income);
 
-            var periodTypes = _context.PeriodTypes.ToList();
-            vm.PeriodTypes = Mapper.Map<List<PeriodType>, List<PeriodTypeDTO>>(periodTypes);
+            var periodTypes = _periodTypeRepository.GetAll();
+            vm.PeriodTypes = Mapper.Map<IEnumerable<PeriodType>, IEnumerable<PeriodTypeDTO>>(periodTypes);
             vm.Type = "income";
             vm.Method = "put";
 

@@ -9,17 +9,22 @@ using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using JLFinancialApp.Models;
 using JLFinancialApp.Models.DTOs;
+using JLFinancialApp.Repositories;
 using AutoMapper;
 
 namespace JLFinancialApp.Controllers.Api
 {
     public class IncomeController : ApiController
     {
-        private ApplicationDbContext _context;
+        private readonly IncomeRepository _repository;
+        private readonly PeriodTypeRepository _periodTypeRepository;
+        private readonly ApplicationDbContext _context;
 
         public IncomeController()
         {
             _context = ApplicationDbContext.Create();
+            _repository = new IncomeRepository(_context);
+            _periodTypeRepository = new PeriodTypeRepository(_context);
         }
 
         [HttpPost]
@@ -40,9 +45,9 @@ namespace JLFinancialApp.Controllers.Api
             
             income.UserId = User.Identity.GetUserId();
 
-            income.PeriodType = _context.PeriodTypes.Single(pt => pt.Id == income.PeriodType.Id);
+            income.PeriodType = _periodTypeRepository.Get(income.PeriodType.Id);
 
-            _context.Incomes.Add(income);
+            _repository.Add(income);
             _context.SaveChanges();
 
             incomeDTO.Id = income.Id;
@@ -63,8 +68,8 @@ namespace JLFinancialApp.Controllers.Api
             {
                 return Unauthorized();
             }
-            
-            var incomeInDb = _context.Incomes.SingleOrDefault(i => i.Id == id);            
+
+            var incomeInDb = _repository.Get(id);
 
             if (incomeInDb == null)
             {
@@ -73,7 +78,7 @@ namespace JLFinancialApp.Controllers.Api
 
             Mapper.Map(incomeDTO, incomeInDb);
 
-            var periodTypeInDb = _context.PeriodTypes.SingleOrDefault(pt => pt.Id == incomeDTO.PeriodType.Id);
+            var periodTypeInDb = _periodTypeRepository.Get(incomeDTO.PeriodType.Id);
 
             if (periodTypeInDb == null)
             {
@@ -91,14 +96,14 @@ namespace JLFinancialApp.Controllers.Api
         [Authorize]
         public IHttpActionResult DeleteIncome(int id)
         {
-            var incomeInDb = _context.Incomes.SingleOrDefault(i => i.Id == id);
+            var incomeInDb = _repository.Get(id);
 
             if (incomeInDb == null)
             {
                 return NotFound();
             }
 
-            _context.Incomes.Remove(incomeInDb);
+            _repository.Remove(incomeInDb);
             _context.SaveChanges();
 
             return Ok();

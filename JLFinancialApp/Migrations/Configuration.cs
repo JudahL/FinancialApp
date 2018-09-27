@@ -5,14 +5,14 @@ namespace JLFinancialApp.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<JLFinancialApp.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<JLFinancialApp.Repositories.ApplicationDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(JLFinancialApp.Models.ApplicationDbContext context)
+        protected override void Seed(JLFinancialApp.Repositories.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

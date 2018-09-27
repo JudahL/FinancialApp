@@ -4,9 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
+using Microsoft.AspNet.Identity;
 using JLFinancialApp.Models;
 using JLFinancialApp.Models.ViewModels;
 using JLFinancialApp.Models.DTOs;
+using JLFinancialApp.Repositories;
 using AutoMapper;
 
 /*
@@ -18,19 +20,24 @@ namespace JLFinancialApp.Controllers
     [Authorize]
     public class DashboardController : Controller
     {
-        private ApplicationDbContext _context;
+        private readonly IncomeRepository _incomeRepository;
+        private readonly SubscriptionRepository _subscriptionRepository;
 
         public DashboardController()
         {
-            _context = ApplicationDbContext.Create();
+            var dbContext = ApplicationDbContext.Create();
+            _incomeRepository = new IncomeRepository(dbContext);
+            _subscriptionRepository = new SubscriptionRepository(dbContext);
         }
 
         public ActionResult Index()
         {
-            var incomes = _context.Incomes.Include(i => i.PeriodType).ToList();
+            var userId = User.Identity.GetUserId();
+
+            var incomes = _incomeRepository.GetUserList(userId);
             var incomeDTOs = Mapper.Map<IList<Income>, IList<IncomeDTO>>(incomes);
 
-            var subscriptions = _context.Subscriptions.Include(s => s.PeriodType).ToList();
+            var subscriptions = _subscriptionRepository.GetUserList(userId);
             var subscriptionDTOs = Mapper.Map<IList<Subscription>, IList<SubscriptionDTO>>(subscriptions);
 
             int totalIncome = CalculateTotalAmount(incomes);
