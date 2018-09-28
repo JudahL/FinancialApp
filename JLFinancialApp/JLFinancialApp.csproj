@@ -287,6 +287,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\Custom\alert.js" />
     <Content Include="Scripts\Custom\recurringAmountList.js" />
     <Content Include="Scripts\Custom\subscriptionFormValidation.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -344,6 +345,7 @@
     <Content Include="Views\Dashboard\_Costs.cshtml" />
     <Content Include="Views\Dashboard\_Totals.cshtml" />
     <Content Include="Views\Shared\_EditDeleteModal.cshtml" />
+    <Content Include="Views\Shared\_Alert.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

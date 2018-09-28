@@ -36,16 +36,11 @@ namespace JLFinancialApp.Controllers.Api
                 return BadRequest();
             }
 
-            if (!User.Identity.IsAuthenticated)
-            {
-                return Unauthorized();
-            }
-
             var income = Mapper.Map<IncomeDTO, Income>(incomeDTO);
             
             income.UserId = User.Identity.GetUserId();
 
-            income.PeriodType = _periodTypeRepository.Get(income.PeriodType.Id);
+            income.PeriodType = _periodTypeRepository.Get(incomeDTO.PeriodType.Id);
 
             _repository.Add(income);
             _context.SaveChanges();
@@ -62,11 +57,6 @@ namespace JLFinancialApp.Controllers.Api
             if (!ModelState.IsValid)
             {
                 return BadRequest();
-            }
-
-            if (!User.Identity.IsAuthenticated)
-            {
-                return Unauthorized();
             }
 
             var incomeInDb = _repository.Get(id);

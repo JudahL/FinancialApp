@@ -36,12 +36,6 @@ namespace JLFinancialApp.Controllers.Api
                 return BadRequest();
             }
 
-            if (!User.Identity.IsAuthenticated)
-            {
-                return Unauthorized();
-            }
-
-
             var subscription = Mapper.Map<SubscriptionDTO, Subscription>(subscriptionDTO);
             
             subscription.UserId = User.Identity.GetUserId();
@@ -64,11 +58,6 @@ namespace JLFinancialApp.Controllers.Api
             if (!ModelState.IsValid)
             {
                 return BadRequest();
-            }
-
-            if (!User.Identity.IsAuthenticated)
-            {
-                return Unauthorized();
             }
 
             var subscriptionInDb = _repository.Get(id);
