@@ -16,10 +16,12 @@ namespace JLFinancialApp
                         "~/Scripts/jquery.validate*"));
 
             bundles.Add(new ScriptBundle("~/bundles/subscriptionForm").Include(
-                        "~/Scripts/Custom/subscriptionFormValidation.js"));
+                        "~/Scripts/Custom/subscriptionFormValidation.js",
+                        "~/Scripts/Custom/alert.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/recurringAmountList").Include(
-                        "~/Scripts/Custom/recurringAmountList.js"));
+                        "~/Scripts/Custom/recurringAmountList.js",
+                        "~/Scripts/Custom/alert.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.

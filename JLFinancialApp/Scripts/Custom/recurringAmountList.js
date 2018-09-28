@@ -21,7 +21,10 @@
             url: "/api/" + controller + "/" + id,
             method: "delete",
             success: function () {
-                $("#row-" + id).remove();
+                var row = $("#row-" + id);
+                var rowName = row.find("button").text();
+                jl_alert.dark("Removed!", rowName + " was removed from your list.");
+                row.remove();
             }
         });
     });

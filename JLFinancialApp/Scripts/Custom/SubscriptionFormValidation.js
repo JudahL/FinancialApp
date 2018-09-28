@@ -40,26 +40,24 @@
                     amount: $("#amount").val(),
                 },
             })
-                .done(function () {
-                    if (method !== "post") {
-                        window.location.pathname = "/" + form.data("url");
-                    } else {
-                        var successAlert = $("#successAlert");
-                        successAlert.removeAttr("hidden");
-                        successAlert.find("#successAlert-info").text($("#name").val() + " has been added to your list!");
-                    }
+            .done(function () {
+                if (method !== "post") {
+                    window.location.pathname = "/" + form.data("url");
+                } else {
+                    jl_alert.success("Successfully Added!", $("#name").val() + " has been added to your list.");
+                }
 
-                    // Reset form values
-                    $("#name").val("");
-                    $("#type").val("0");
-                    $("#amount").val("");
+                // Reset form values
+                $("#name").val("");
+                $("#type").val("0");
+                $("#amount").val("");
 
-                    // Reset form validation
-                    validator.resetForm();
-                })
-                .fail(function () {
-                    $("#failAlert").removeAttr("hidden");
-                });
+                // Reset form validation
+                validator.resetForm();
+            })
+            .fail(function () {
+                jl_alert.fail("Error!", "Something went wrong and " + $("#name").val() + " could not be added to your list.");
+            });
 
             return false;
         },
