@@ -18,12 +18,21 @@ var jl_alert = {
     success: function(titleText, infoText) {
         this._displayAlert(titleText, infoText, "success");    
     },
+    warning: function (titleText, infoText) {
+        this._displayAlert(titleText, infoText, "warning");
+    },
     danger: function(titleText, infoText) {
         this._displayAlert(titleText, infoText, "danger");     
     },
+    info: function (titleText, infoText) {
+        this._displayAlert(titleText, infoText, "info");
+    },
+    light: function (titleText, infoText) {
+        this._displayAlert(titleText, infoText, "light");
+    },
     dark: function (titleText, infoText) {
         this._displayAlert(titleText, infoText, "dark");    
-    }
+    },
 }
 
 $(document).ready(function () {
